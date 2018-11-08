@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+<mapper namespace="cn.tedu.store.mapper.UserMapper">
+	<!-- void insert(User user); -->
+	<insert id="insert" parameterType = "cn.tedu.store.bean.User" useGeneratedKeys="true" keyProperty="id">
+		insert into user (name,pwd,sex,phone_num) values(#{name},#{password},#{sex},#{phoneNum});
+	</insert>
+	
+	<!-- List<User> findAll() -->
+	<select id="findAll" resultType="cn.tedu.store.bean.User">
+		select id,name,pwd as password,sex,phone_num as phoneNum from user;
+	</select>
+	
+	<!-- User findUserById(Integer id); -->
+	<select id="findUserById" resultType="cn.tedu.store.bean.User">
+		select id,name,pwd as password,sex,phone_num as phoneNum 
+		from user where id = #{id};
+	</select>
+	<!-- void updateUser(User user); -->
+	<update id="updateUser" parameterType = "cn.tedu.store.bean.User" >
+		update user set 
+			<if test="password != null">
+				pwd = #{password},
+			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="sex != null">
+				sex = #{sex},
+			</if>
+			<if test="phoneNum != null">
+				phone_num = #{phoneNum}
+			</if>
+		where 
+			id = #{id} 
+	</update>
+</mapper>
